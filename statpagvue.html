@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<style>
+ * {
+     margin: 0;
+     padding: 0;
+ }
+
+ body {
+     width: 100%;
+     height: 100%;
+ }
+
+ ul {
+     width: 100%;
+     height: 100%;
+ }
+
+ li {
+     width: 100%;
+     height: 400px;
+     background: red;
+     color: #fff;
+     margin-bottom: 20px;
+ }
+
+ .pages {
+     width: 100vw;
+     height: 50px;
+     position: fixed;
+     bottom: 0;
+     background: yellowgreen;
+     display: flex;
+     justify-content: space-evenly;
+     align-items: center;
+ }
+
+ .page {
+     display: flex;
+     color: #fff;
+     background: #000;
+     justify-content: center;
+     align-items: center;
+     padding: 5px;
+     cursor: pointer;
+ }
+</style>
+
+<body>
+    <div id = "vue">
+        <h1>limit {{limit}}</h1>
+        <button @click="setL">change limit</button>
+
+        <ul>
+            <li v-for="el in out">{{el.id}}</li>
+        </ul>
+
+        <div class="pages">
+            <div class="page"  @click="setP(el)"  v-for="el in pages">{{el + 1}}</div>
+        </div>
+    </div>
+    
+    <script src="https://unpkg.com/vue@next"></script>
+    <script>
+        Vue.createApp({
+            data() {
+                return {
+                    limit: 3,
+                    page: 0,
+                    pages: [],
+                    arr: [
+                        {id: 1},
+                        {id: 2},
+                        {id: 3},
+                        {id: 4},
+                        {id: 5},
+                        {id: 6},
+                        {id: 7},
+                        {id: 8},
+                        {id: 9},
+                        {id: 10},
+                        {id: 11},
+                        {id: 12},
+                        {id: 13},
+                    ],
+                    out: []
+                }
+            },
+
+            methods: {
+                setP(p) {
+                    this.page = p
+                    this.out = this.arr.slice(this.page * this.limit, this.page * this.limit + this.limit)
+                },
+
+                setL() {
+                    let lim = +prompt("Лимит...")
+
+                    this.limit = lim;
+
+                    let all = this.arr.length / this.limit
+
+                    this.pages = []
+
+
+
+                    for (i=0; i<all; i++) {
+                        this.pages.push(i)
+                    }
+
+                    this.out = this.arr.slice(this.page * this.limit, this.page * this.limit + this.limit)
+                }
+            },
+
+            mounted() {
+                let all = this.arr.length / this.limit
+
+                for (i=0; i<all; i++) {
+                    this.pages.push(i)
+                }
+
+                console.log(this.pages)
+
+                this.out = this.arr.slice(this.page * this.limit, this.page * this.limit + this.limit)
+            },
+
+        }).mount("#vue")
+    </script>
+</body>
+</html>
